@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>演示鼠标移动时背景图片跟着移动，视觉差</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        #contentBox {
+            background: url(bg.jpg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="contentBox">
+    </div>
+
+    <script>
+        // 设置背景盒子高度
+        var contentBox= document.getElementById("contentBox");
+        contentBox.style.height=window.innerHeight+"px";
+
+        // 监听鼠标移动
+        var mX=0,mY=0,moving=false;
+        contentBox.onmousemove=function(e){
+            // 刚触发，等会再执行
+            if(moving){  return; };
+            
+            // 上次移动到的位置
+            var oX= parseInt(this.style.backgroundPositionX||0) ;
+            var oY= parseInt(this.style.backgroundPositionY||0) ;
+           // 移动
+            this.style.backgroundPositionX=oX+(e.offsetX-mX)/30 +"px";
+            this.style.backgroundPositionY=oY+(mY-e.offsetY)/30 +"px";
+            
+            // 赋新值
+            mX=e.offsetX;
+            mY=e.offsetY;
+            
+            // 减少触发频率
+            moving=true;
+            setTimeout(function(){
+                moving=false;
+            },200);
+        }
+
+    </script>
+</body>
+
+</html>
